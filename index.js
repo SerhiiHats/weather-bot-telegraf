@@ -3,15 +3,7 @@ const {Telegraf} = require('telegraf')
 const {mainMenu, backButtonMenu} = require("./utils/buttons");
 const {CMD_TEXT} = require("./config/consts");
 const {currentWeatherOfString, getCurrentWeather} = require("./services/services");
-const express = require('express');
 
-const app = express();
-
-let time;
-
-app.use("/", (req, res) => {
-  res.send("Server is running! Start at: " + time);
-});
 
 const index = new Telegraf(process.env.BOT_TOKEN);                   //create object index
 
@@ -56,13 +48,8 @@ index.on('message', async (ctx) => {
 //запуск бота
 index.launch();
 
-
-app.listen(5000, () => console.log("Server started on PORT 5000"));
-
 // Enable graceful stop
 process.once('SIGINT', () => index.stop('SIGINT'))
 process.once('SIGTERM', () => index.stop('SIGTERM'))
-
-time = new Date().toLocaleString();
 
 console.log(`Bot did started: ${new Date().toLocaleString()}`)
