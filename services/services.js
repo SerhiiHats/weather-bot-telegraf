@@ -7,17 +7,17 @@ const URL_IPINFO_IO = `https://ipinfo.io/?token=${process.env.IP_TOKEN}`;
 const currentWeatherOfString = async () => {
   const currentLocation = await getLocationFromIp(URL_IPINFO_IO);
   if (currentLocation) {
-    console.log(currentLocation)
+    // console.log(currentLocation)
     const arrayOfCoordinates = currentLocation.loc.split(',')
     const lat = arrayOfCoordinates[0];
     const lon = arrayOfCoordinates[1];
-    console.log(`We got a response that:\nyour city: ${currentLocation.city} \nand your coordinates:\nlatitude: ${lat}\nlongitude: ${lon}`);
+    // console.log(`We got a response that:\nyour city: ${currentLocation.city} \nand your coordinates:\nlatitude: ${lat}\nlongitude: ${lon}`);
     if (lat && lon) {
       const strOfWeather = await getCurrentWeather(lat, lon);
       return strOfWeather;
 
     } else {
-      console.log("Sorry we can't get your location 🤷, please send your location");
+      // console.log("Sorry we can't get your location 🤷, please send your location");
       return "";
     }
   }
@@ -28,7 +28,7 @@ const currentWeatherOfString = async () => {
 async function getLocationFromIp(url) {
   const currentLocation = await axios.get(url)
     .then(res => {
-      console.log(`we got a response that: \nyour city: ${res.data.city} \nand your coordinates : ${res.data.loc}`);
+      // console.log(`we got a response that: \nyour city: ${res.data.city} \nand your coordinates : ${res.data.loc}`);
       return res.data;
     })
     .catch(err => console.log("Error: ", err.message));
@@ -41,7 +41,7 @@ async function getCurrentWeather(lat, lon) {
     const response = await axios.get(URL)
       .then(res => res.data);
 
-    console.log(response);
+    // console.log(response);
     return `App ☔ the Weather: \n${response.name.toUpperCase()}:
 now 🌡 ${(response.main.temp - 273.15).toFixed(2)} ℃, ${response.weather[0].description}
 feels like ${(response.main.feels_like - 273.15).toFixed(2)} ℃\nwind 🌬 ${response.wind.speed} m/cek.\nsunrise: **-**\nsunset: **-**`;

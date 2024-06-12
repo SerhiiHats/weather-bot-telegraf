@@ -1,9 +1,20 @@
 require('dotenv').config();
-const {Telegraf} = require('telegraf')
+const {Telegraf} = require('telegraf');
+const express = require('express');
 const {mainMenu, backButtonMenu} = require("./utils/buttons");
 const {CMD_TEXT} = require("./config/consts");
 const {currentWeatherOfString, getCurrentWeather} = require("./services/services");
 
+const PORT = 5000;
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Bot is alive!');
+});
+
+app.listen(PORT, ()=> {
+  console.log(`Server running at ${new Date().toLocaleString()} on http://localhost:${PORT}`);
+})
 
 const index = new Telegraf(process.env.BOT_TOKEN);                   //create object index
 
