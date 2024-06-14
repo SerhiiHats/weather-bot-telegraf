@@ -68,14 +68,18 @@ index.on('message', async (ctx) => {
 
   if (city && city.trim().length < 3) {
     return ctx.reply(`Повинно бути більше 2 символів ❌ ${city.trim()}`);
-  } else {
-    const userCities = await getCitiesFromGeocoder(city.trim());
-
-    return ctx.reply(`Well done ✅ ${userCities.map(city => {
-      return city.state ? `${city.name} ${city.state} ${city.country}` : `${city.name} ${city.country}`;
-    }).join(", ")}
-👉 Вибери свое місто 💛💙`, {...inlineButtonsOfCity(userCities)});
   }
+
+  const userCities = await getCitiesFromGeocoder(city.trim());
+
+  if (!userCities.length) {
+    return ctx.reply("Sorry we can't find this city 🤷, please send your location", {...mainMenu});
+  }
+
+  return ctx.reply(`Well done ✅ ${userCities.map(city => {
+    return city.state ? `${city.name} ${city.state} ${city.country}` : `${city.name} ${city.country}`;
+  }).join(", ")}
+👉 Вибери свое місто 💛💙`, {...inlineButtonsOfCity(userCities)});
 
 });
 

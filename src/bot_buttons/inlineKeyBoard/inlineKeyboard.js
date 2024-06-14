@@ -10,7 +10,8 @@ const inlineButtonSendYourCity = {
 
 const inlineButtonsOfCity = (cities) => {
   const arrayInlineKeyboard = cities.map(city => {
-    const nameCity = city.state ? `${city.name} ${city.state} ${city.country}` : `${city.name} ${city.country}`;
+    const localName = city?.local_names?.uk ? city.local_names.uk : city.name;
+    const nameCity = city.state ? `${localName} ${city.state} ${city.country}` : `${localName} ${city.country}`;
     return [
       {
         text: nameCity,
