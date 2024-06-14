@@ -1,5 +1,5 @@
 const axios = require("axios");
-// const {backButtonMenu} = require("../utils/buttons");
+const constants = require("node:constants");
 require('dotenv').config();
 
 const URL_IPINFO_IO = `https://ipinfo.io/?token=${process.env.IP_TOKEN}`;
@@ -7,17 +7,14 @@ const URL_IPINFO_IO = `https://ipinfo.io/?token=${process.env.IP_TOKEN}`;
 const currentWeatherOfString = async () => {
   const currentLocation = await getLocationFromIp(URL_IPINFO_IO);
   if (currentLocation) {
-    // console.log(currentLocation)
     const arrayOfCoordinates = currentLocation.loc.split(',')
     const lat = arrayOfCoordinates[0];
     const lon = arrayOfCoordinates[1];
-    // console.log(`We got a response that:\nyour city: ${currentLocation.city} \nand your coordinates:\nlatitude: ${lat}\nlongitude: ${lon}`);
     if (lat && lon) {
       const strOfWeather = await getCurrentWeather(lat, lon);
       return strOfWeather;
 
     } else {
-      // console.log("Sorry we can't get your location 🤷, please send your location");
       return "";
     }
   }
@@ -28,11 +25,17 @@ const currentWeatherOfString = async () => {
 async function getLocationFromIp(url) {
   const currentLocation = await axios.get(url)
     .then(res => {
-      // console.log(`we got a response that: \nyour city: ${res.data.city} \nand your coordinates : ${res.data.loc}`);
       return res.data;
     })
     .catch(err => console.log("Error: ", err.message));
   return currentLocation;
+}
+
+async function getCitiesFromGeocoder(userCity) {
+  const URL = `https://api.openweathermap.org/geo/1.0/direct?q=${userCity}&limit=5&appid=${process.env.API_KEY_WEATHER}`;
+  const response = await axios.get(URL);
+ return response.data;
+
 }
 
 async function getCurrentWeather(lat, lon) {
@@ -54,4 +57,5 @@ feels like ${(response.main.feels_like - 273.15).toFixed(2)} ℃\nwind 🌬 ${re
 module.exports = {
   currentWeatherOfString,
   getCurrentWeather,
+  getCitiesFromGeocoder,
 }

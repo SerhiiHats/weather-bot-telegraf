@@ -1,4 +1,4 @@
-// import {mainMenu} from "../utils/buttons";
+// import {mainMenu} from "../bot_buttons/buttons";
 //
 // export const starts = (ctx) => {
 //   // ctx.reply(`Hello ${ctx.message.from.first_name} ❤, I can show you the weather where you are 📍 💯`, {
